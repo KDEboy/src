@@ -1,0 +1,66 @@
+<!DOCTYPE Menu PUBLIC '-//freedesktop//DTD Menu 1.0//EN' 'http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd'>
+<Menu>
+ <Menu>
+  <Name>Games</Name>
+  <Layout>
+   <Merge type="menus"/>
+   <Menuname>Arcade</Menuname>
+   <Menuname>Board</Menuname>
+   <Menuname>Card</Menuname>
+   <Menuname>Kidsgames</Menuname>
+   <Menuname>Logic</Menuname>
+   <Menuname>TacticStrategy</Menuname>
+   <Menuname>Toys</Menuname>
+   <Merge type="files"/>
+   <Filename>steam.desktop</Filename>
+  </Layout>
+  <Exclude>
+   <Filename>lsi-settings.desktop</Filename>
+   <Filename>lsi-steam.desktop</Filename>
+   <Filename>steam-native.desktop</Filename>
+  </Exclude>
+ </Menu>
+ <Menu>
+  <Name>Internet</Name>
+  <Layout>
+   <Merge type="menus"/>
+   <Menuname>Terminal</Menuname>
+   <Merge type="files"/>
+   <Filename>bssh.desktop</Filename>
+   <Filename>bvnc.desktop</Filename>
+   <Filename>firefox.desktop</Filename>
+   <Filename>org.kde.kmail2.desktop</Filename>
+   <Filename>org.kde.ktnef.desktop</Filename>
+   <Filename>org.kde.ktorrent.desktop</Filename>
+   <Filename>org.kde.sieveeditor.desktop</Filename>
+   <Filename>steam.desktop</Filename>
+   <Filename>telegramdesktop.desktop</Filename>
+   <Separator/>
+   <Menuname>More</Menuname>
+  </Layout>
+  <Exclude>
+   <Filename>lsi-steam.desktop</Filename>
+   <Filename>lsi-settings.desktop</Filename>
+   <Filename>steam-native.desktop</Filename>
+  </Exclude>
+ </Menu>
+ <Menu>
+  <Name>Settingsmenu</Name>
+  <Layout>
+   <Merge type="files"/>
+   <Filename>thunar-settings.desktop</Filename>
+   <Filename>systemsettings.desktop</Filename>
+  </Layout>
+  <Exclude>
+   <Filename>lsi-settings.desktop</Filename>
+  </Exclude>
+ </Menu>
+ <Menu>
+  <Name>.hidden</Name>
+  <Include>
+   <Filename>lsi-steam.desktop</Filename>
+   <Filename>steam-native.desktop</Filename>
+   <Filename>lsi-settings.desktop</Filename>
+  </Include>
+ </Menu>
+</Menu>

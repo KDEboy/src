@@ -1,0 +1,27 @@
+[General]
+screenCount=1
+
+[LegacySession: saved at previous logout]
+count=0
+
+[Session: saved at previous logout]
+clientId1=10bbcade75000151553854200000005550007
+clientId2=10bbcade75000151553854200000005550004
+clientId3=10bbcade75000151557103200000071480006
+count=3
+discardCommand2[$e]=rm,$HOME/.config/session/kwin_10bbcade75000151553854200000005550004_1515598070_84447
+program1=/usr/lib/org_kde_powerdevil
+program2=/usr/bin/kwin_x11
+program3=pulseaudio
+restartCommand1=/usr/lib/org_kde_powerdevil,-session,10bbcade75000151553854200000005550007_1515598070_51826
+restartCommand2=/usr/bin/kwin_x11,-session,10bbcade75000151553854200000005550004_1515598070_84447
+restartCommand3=
+restartStyleHint1=0
+restartStyleHint2=0
+restartStyleHint3=0
+userId1=dan
+userId2=dan
+userId3=dan
+wasWm1=false
+wasWm2=true
+wasWm3=false

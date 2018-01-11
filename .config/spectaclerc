@@ -1,0 +1,4 @@
+[GuiConfig]
+includeDecorations=true
+includePointer=true
+window-position=50,50
