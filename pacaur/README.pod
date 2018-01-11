@@ -1,0 +1,491 @@
+=encoding utf8
+
+=head1 NAME
+
+pacaur - an AUR helper that minimizes user interaction
+
+=head1 SYNOPSIS
+
+Usage: I<pacaur> E<lt>operationE<gt> [ options ] [ target(s) ]
+
+=head1 DESCRIPTION
+
+Pacaur is an Arch User Repository (AUR) helper aiming at speed and simplicity
+and is designed to minimize user prompt interaction. It uses an uncluttered
+interface and makes use of the full secured RPC interface to solve the dependency
+tree. It will also automatically prompt for sudo access when needed. It is built
+upon the well designed cower and expac C backends.
+
+Invoking pacaur consists of supplying an operation, any applicable options, and
+usually one or more targets. A I<target> is usually a package name or a search
+string.
+
+=head1 USERBASE TARGET
+
+Pacaur is targeted at B<advanced users> who want some degree of automation for
+repetitive tasks. As such, the user is expected to be familiar with the AUR
+manual build process with makepkg and its configuration options, as well as
+being knowledgeable about sudo and gpg configuration.
+
+Two sets of command line options are provided: commands which call the pacman
+binary and extend it with AUR functions B<(-S, -Ss, -Si, -Sw, -Su, -Qu, -Sc, -Scc)>,
+and commands which are AUR specific B<(sync, search, info, buildonly,
+upgrade, check, clean, cleanall)>. As such, pacaur can be used by users
+who prefer to have a single tool to manage the official and AUR repositories, or
+by users who prefer to keep their AUR frontend separated from pacman.
+
+B<Note:> The AUR specific commands short options B<(-y, -s, -i, -d, -m, -u, -k)>
+and their respective long options B<(--sync, --search, --info, --download,
+--makepkg, --update, --check)> are now I<deprecated> and will I<be removed> in a
+future release.
+
+=head1 OPERATIONS
+
+=head2 Pacman extension operations
+
+=over 4
+
+=item B<-S, -Ss, -Si, -Sw, -Su, -Qu, -Sc, -Scc>
+
+Pacaur wraps all B<pacman operations> and by default extends respectively its
+sync, search, info, download only, system upgrade, upgrades check, clean and
+clean all functions to the AUR. This extension behavior is optional and can be
+disabled with the I<fallback> variable in the config file. Pacaur will also pass
+any other pacman operations and their related options to the pacman binary.
+
+=back
+
+=head2 AUR specific operations
+
+=over 4
+
+=item B<sync>
+
+Clone build files, build and install I<target(s)>. Missing dependencies will be
+automatically installed as needed.
+
+=item B<search>
+
+Search for packages with the I<target(s)> as the search term(s). Queries with
+multiple targets will return the result of the intersection of all query
+results. Extended regex patterns as defined by POSIX are allowed.
+The output will display the name, version, votes and popularity values of each
+package. The flagged status will also be indicated by a <!> symbol or a colored
+version string if colored output is enabled.
+
+=item B<info>
+
+Show info for I<target(s)>.
+
+=item B<buildonly>
+
+Clone build files and build I<target(s)>. Missing dependencies will be installed
+as needed for the build process, and removed automatically afterwards.
+
+=item B<upgrade>
+
+Update foreign packages in the AUR. Without any arguments, all manually
+installed packages will be upgraded. If I<target(s)> are supplied, only those
+packages will be upgraded.
+
+=item B<check>
+
+Check foreign packages for upgrades in the AUR. Without any arguments, all
+manually installed packages will be checked. If I<target(s)> are supplied, only
+those packages will be checked.
+
+=item B<clean>
+
+Clean foreign packages and clones. Offer to remove all non locally installed
+built packages from defined I<PKGDEST> cache, all non development files from
+defined I<SRCDEST> cache, and all uninstalled clones from AUR clones directory.
+If I<target(s)> are supplied, only those specific clones will be removed.
+
+=item B<cleanall>
+
+Clean all foreign packages and clones. Offer to remove all built packages from
+defined I<PKGDEST>, all sources in defined I<SRCDEST>, and all local clones from
+clones directory.
+
+=back
+
+=head2 General operations
+
+=over 4
+
+=item B<-v, --version>
+
+Display version and quit.
+
+=item B<-h, --help>
+
+Display the help message and quit.
+
+=back
+
+=head1 OPTIONS
+
+=head2 Pacman extension options
+
+=over 4
+
+=item B<-a, --aur>
+
+When used with pacman extended operations, only search, build, install, upgrade
+or clean I<target(s)> from the AUR. When combined with I<-Syu>, only the I<-Sy>
+operation is run for the repositories.
+
+=item B<-r, --repo>
+
+When used with pacman extended operations, only search, build, install, upgrade
+or clean I<target(s)> from the repositories.
+
+=back
+
+=head2 General options
+
+=over 4
+
+=item B<-e, --edit>
+
+Edit build files when cloning or building I<target(s)>. Overrides the
+I<displaybuildfiles> config option and always fully shows the build files.
+Can also be used as a standalone command.
+
+=item B<-q, --quiet>
+
+Show less information for search and query operations. Search will only show
+package names and not version, group, and description information.
+
+=item B<--devel>
+
+When used with upgrade and check operations, also consider AUR development
+packages. Supported are I<cvs>, I<svn>, I<git>, I<hg>, I<bzr> and I<darcs>
+development packages, as well as I<daily> and I<nightly> build packages.
+
+=item B<--foreign>
+
+When used with buildonly, sync and upgrade operations, also consider already
+installed foreign dependencies when solving the dependency tree.
+
+=item B<--ignore> I<target(s)>
+
+Ignore a I<target> upgrade. Can be used more than once. Also accepts a comma
+delimited list as a single argument. Packages listed in pacman and cower's
+I<IgnorePkg> directive are honored.
+
+=item B<--needed>
+
+Do not reinstall I<target(s)> that are already up-to-date. The build of
+development packages that are found up-to-date after the source checkout will
+be skipped. Supported are I<svn>, I<git>, I<hg> and I<bzr> development
+packages, as well as I<daily> and I<nightly> build packages.
+
+=item B<--noconfirm>
+
+Perform commands without confirmation from the user.
+
+=item B<--noedit>
+
+Perform commands without editing any installation files. Overrides the
+I<--edit> option.
+
+=item B<--rebuild>
+
+Always rebuild packages regardless of any existing file in I<$PKGDEST> directory,
+and regardless of up-to-date status of development packages.
+
+=item B<--silent>
+
+Silence output. This will send the output of each packaging functions to text
+files in the clone directory named I<pkgname-pkgver-pkgrel-arch-function.log>.
+Additional pacman output for providers and cached packages installation will
+also be hidden.
+
+=back
+
+=head2 Search options
+
+=over 4
+
+=item B<--by> <FIELD>
+
+When searching the AUR, search by I<FIELD> where I<FIELD> is B<name>, B<name-desc>,
+or B<maintainer> to search for packages by their name, name and description, or by
+the package maintainer, respectively. The default is to search by name-desc.
+
+=item B<--ignore-ood>, B<--no-ignore-ood>
+
+When searching the AUR, ignore all results marked as out of date or do not ignore
+results marked as out of date, respectively. The default is to not ignore results
+marked as out of date. This can be changed with the I<IgnoreOOD> option in the
+cower config file.
+
+=item B<--literal>
+
+When searching the AUR, disable regex search and interpret target as a literal
+string.
+
+=item B<--sort> <KEY>, B<--rsort> <KEY>
+
+When searching the AUR, sort the results in ascending or descending order,
+respectively, by I<KEY> where I<KEY> is B<name>, B<votes> or B<popularity>.
+
+=back
+
+=head2 Other options
+
+=over 4
+
+=item B<--domain> <FQDN>
+
+Point at a domain other than the default I<aur.archlinux.org>.
+
+=back
+
+=head1 CONFIG FILE
+
+=over 4
+
+=item B<system config>
+
+Pacaur honors a system-wide config file which will be looked for first at
+
+  $XDG_CONFIG_DIRS/pacaur/config
+
+and falling back to
+
+  /etc/xdg/pacaur/config
+
+=item B<user config>
+
+User-defined configuration files overriding the general settings will be looked
+for first at
+
+  $XDG_CONFIG_HOME/pacaur/config
+
+and falling back to
+
+  $HOME/.config/pacaur/config
+
+=item B<other config>
+
+In addition, pacaur fully honors cower's config file. See B<cower>(1).
+
+=back
+
+=head1 CONFIG OPTIONS
+
+The available options are:
+
+=over 4
+
+=item B<editor>
+
+Define the editor. Default is B<$VISUAL>, with a fallback on B<$EDITOR> and I<nano>.
+
+=item B<displaybuildfiles>
+
+Display PKGBUILD and install script viewing prompt. Possible values are I<full>
+to always display the full build files, I<diff> to only display the difference
+since last build, and I<none> to disable the viewing prompt. Default is B<diff>.
+
+=item B<fallback>
+
+Extend pacman commands to the AUR. Default is B<true>.
+
+=item B<silent>
+
+Enable silent output. The makepkg output will be collected in the clone directory
+or the I<$LOGDEST> directory should any error occur. Default is B<false>.
+
+=item B<sortby>
+
+When searching the AUR, sort the results by I<name>, number of I<votes> or
+I<popularity>. Default is B<popularity>.
+
+=item B<sortorder>
+
+When searching the AUR, sort the results in I<ascending> or I<descending> order.
+Default is B<descending>.
+
+=item B<sudoloop>
+
+Prevent sudo timeout. This option overrides the system-wide I<passwd_timeout>
+sudo configuration and refreshes the sudo timestamp automatically in a loop when
+building packages. Default is B<true>.
+
+=back
+
+=head1 ENVIRONMENT
+
+=over 4
+
+=item B<AURDEST>
+
+Determines where the packages build files (PKGBUILD, .SRCINFO and install script
+files) will be cloned. The I<-Sc> and I<-Scc> clean operations allow to remove
+the untracked cloned files and the non locally installed cloned files, and all
+cloned files, respectively.
+
+If this environment variable is not defined, the clone directory will be set to
+
+  $XDG_CACHE_HOME/pacaur
+
+with a fall back to
+
+  $HOME/.cache/pacaur
+
+=back
+
+In addition, makepkg environment variables are fully honored. See B<makepkg>(8).
+In particular, the following variables are useful:
+
+=over 4
+
+=item B<PKGDEST>
+
+Determines where the built packages will be stored. If using the existing
+I</var/cache/pacman/pkg> pacman cache directory, ensure your user has proper
+write permissions. Additionally, if added to the I<CacheDir> path option of
+I<pacman.conf>, the I<-Sc> and I<-Scc> clean operations will enable removal of
+non locally installed cached files and all cached files, respectively.
+
+=item B<SRCDEST>
+
+Determines where the source of packages will be stored. This will speed up the
+upgrade of development packages. The I<-Sc> and I<-Scc> clean operations allow
+to remove the non development packages source files and all source files,
+respectively.
+
+=item B<LOGDEST>
+
+Determines where the build logs will be stored. By default, the I<--silent>
+option will write build logs in the clone directory if the build fails, but
+will remove them if the build succeeds.
+
+=item B<BUILDDIR>
+
+Determines where the packages will be built. By default, build will happen in
+the defined clone directory, but build speed can be improved by using I</tmp>
+located in volatile memory. This is however not recommended if big packages
+need to be built on a low-memory machine.
+
+=back
+
+=head1 NOTES
+
+=over 4
+
+=item B<sudo configuration>
+
+To be used with minimal password prompting, I<sudo> should be configured
+accordingly to allow sudo access. See B<sudoers>(5). If you disable the
+I<sudoloop> config option, you might also want to disable the I<passwd_timeout>
+sudo parameter to avoid password prompt timeout.
+
+=item B<pacman misc options>
+
+Miscellaneous options enabled in I<pacman.conf> are taken into account. Thus,
+colored output can be enabled with the I<Color> option, while a detailed interface
+displaying name, version and size of packages formatted as a table is available
+through the I<VerbosePkgLists> option.
+
+=item B<build files comparison>
+
+To allow build files comparison, the I<displaybuildfiles> default config option
+is set to I<diff>. Although the clone directory (set by default to
+I<$XDG_CACHE_HOME/pacaur>) can be changed through the alternative I<$AURDEST>
+environment variable, it should always be set to a persistent location.
+
+=item B<fallback>
+
+By default, any operation will be applied on the binary repositories, then the
+AUR if necessary. This behavior is optional and can be disabled with the
+I<fallback> config option. When disabled, any operation will be restricted to
+the binary repositories similarly to pacman, while AUR operations can be
+applied explicitly with the I<--aur> option.
+
+=item B<interactive PKGBUILDs>
+
+Packages requiring user input while building are not supported and might fail
+to install properly. There is currently no official directive about these
+interactive PKGBUILDs, but some of the official pacman developers expressed
+the opinion that PKGBUILDs should always provide default compilation options.
+
+=item B<host name error>
+
+If a lot of "Could not connect to the AUR" and "Timeout was reached" messages
+are displayed while searching or requesting info for packages despite the
+internet connection working correctly, ensure your local I<DNS server> is
+correctly configured to improve name lookups. Using Google's primary DNS
+(8.8.8.8 and 8.8.4.4) might also help.
+
+=item B<alternative installation root>
+
+The alternative installation root I<-r /path> short option of pacman is not
+supported. Use the I<--root /path> long option instead, or chroot to the new
+path and use pacaur from there instead.
+
+=back
+
+=head1 SEE ALSO
+
+B<cower>(1), B<pacman>(8), B<makepkg>(8), B<sudoers>(5)
+
+=head1 AUTHOR
+
+Remy Marquis E<lt>remy.marquis@gmail.comE<gt>
+
+If you feel great pity for the present maintainer that has to constantly cope
+with users that don't want to read man pages and refuse to take responsibility
+for their own system, you can send me funny cat pictures. Alternatively, you
+can send a donation via PayPal to the above email address.
+
+I would also suggest to donate to a charitable organization of your choice
+should you believe that your money could make a bigger difference there.
+Thank you!
+
+Absolutely B<no support> is provided, unless you are ready to pay for it.
+
+All credits go to all direct or indirect contributors. Many thanks to all of
+you!
+
+=head1 TRANSLATORS
+
+B<[ca] - Català> - Alex "alexhenrie" Henrie
+
+B<[da] - Dansk> - Filip "filipkemuel" Kemuel
+
+B<[de] - Deutsch> - Marco "BigBoot" Kirchner, "HerrNieschnell", "pszalanski", Stefan "rumpelsepp" Tatschner, Tilman "Tblue" Blumenbach
+
+B<[es] - Español> - Germán "gosella" Osella Massa, Ismael "ChuckDaniels87" González, Pablo "jristz" Lezaeta Reyes
+
+B<[fi] - Suomi> - "durazell"
+
+B<[fr] - Français> - "spider-mario", "Neitsab", Antoine "Nevax07" Gravelot
+
+B<[hu] - Magyar> - "avelkei"
+
+B<[it] - Italiano> - Demenico "NoMore201" Lezzi, Giovanni "ItachiSan" Santini
+
+B<[ja] - 日本語> - Colin "fosskers" Woodbury, TSUYUSATO "MakeNowJust" Kitsune
+
+B<[nl] - Nederlands> - "Yoshi2889", Willem "14mRh4X0r" Mulder
+
+B<[pl] - Polski> - Tomasz "Ludvick" Niedzielski
+
+B<[pt] - Português> - Thiago "thiagowfx" Barroso Perrotta, Rafael "rccavalcanti" Cavalcanti
+
+B<[ru] - Русский> - "kyak"
+
+B<[sk] - Slovenčina> - Pavol "pakapusta" Kapusta, Juraj "DoctorJellyface" Fiala
+
+B<[sl] - Slovenščina> - Žan "tofiffe" Skamljič
+
+B<[sr] - Српски / srpski> - Slobodan "Faenriis" Terzić
+
+B<[tr] - Türkçe> - Volkan "wakeup" Gezer
+
+B<[zh_CN] - 简化中文> - "kizayoi"
+
