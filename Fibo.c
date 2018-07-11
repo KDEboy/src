@@ -8,7 +8,6 @@ int main(void){
   int CalculaFibo(int x);
   int num = 0;
   int fibo = 0;
-  int i = 0;
 
   char a;
 
@@ -21,6 +20,9 @@ int main(void){
 
       fibo = CalculaFibo(num);
       printf("Teu Fibonnaci é %d", fibo);
+  }
+  else if(a == 'i'){
+    printf("Em contrução...(Aceito Dicas)");
   }
   return 0;
 }
