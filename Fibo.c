@@ -27,7 +27,7 @@ int main(void){
   return 0;
 }
 
-/*Função Recursiva para calcular Fibonnaci.*/
+/*Função Recursiva para calcular Fibonnaci...........*/
 int CalculaFibo(int x){
 /* Formula geral: Fn = Fn - 1 + Fn - 2*/
   if(x == 0){
