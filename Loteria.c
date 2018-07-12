@@ -18,15 +18,18 @@ int main(void){
   int vetor_usuario[5] = {0};
 
 	/*Sorteio dos números aleatórios*/
-    srand( (unsigned)time(NULL) );
+  srand( (unsigned)time(NULL) );
 
 	/*Entrada do bilhete do usuário*/
+  printf("OBSERVAÇÃO...\n");
+  printf("Após digitar um número, pressione enter para digitar o próximo número.\n");
 	for(j = 0; j < 5; j++){
-		printf("Digite o número %d no intervalo[0,9]: ", j);
+		printf("Digite um número(APENAS DENTRO DO INTERVALO[0,9]): ");
 		scanf("%d", &vetor_usuario[j]);
 	}
-	printf("\n");
-	printf("A sequencia correta é: ");
+
+  printf("\n");
+	printf("A sequencia correta de números soreados é: ");
 
 	/*Printagem da sequencia números aleatórios*/
 	for(i = 0 ; i < 5 ; i++){
