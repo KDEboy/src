@@ -23,14 +23,19 @@ int main(void)
     
     printf("LOTTERY SYSTEM VERSION 0.1 ALPHA.\n");
     printf("A system to test your luck and still, if you want, you can use the random sequence generated in the real draws.\n");
+
     printf("\n");
-    printf("Note...\n");
-    printf("After entering a number, press enter to enter the next number.\n");
-
-    printf("Type 'q' for Quina,'t' for Timemania, 'l' for Lotofacil, 'm' for Megasena, "
-    "'d' for Dupla-Sena, 's' for Dia De Sorte, 'n' for Lotomania, 'f' for Federal: ");
+    printf("NOTES:\n");
+    printf("1) After entering a number, press enter to enter the next number.\n");
+    printf("2) The federal game is UNDER CONSTRUCTION..\n");    
+    printf("\n");
+    
+    printf(" Type 'q' for Quina.\n Type 't' for Timemania.\n Type 'l' for Lotofacil.\n Type 'm' for Megasena.\n "
+    "Type 'd' for Dupla-Sena.\n Type 's' for Dia De Sorte.\n Type 'n' for Lotomania.\n Type 'f' for Federal.\n "
+    "Type 'e' for Exit.\n Your choice: ");
     scanf(" %c", &choice);
-
+    printf("\n");
+    
 /*choice do tipo de jogo.*/
     switch (choice)
     {
@@ -57,6 +62,9 @@ int main(void)
             break;
         case 'f':
             Federal();
+            break;
+        case 'e':
+            exit(0);
             break;
         default:
             printf("NOTHING...\n");
@@ -475,11 +483,12 @@ void Lotomania(int validateInput)
 }      
     
 /*FEDERAL*/
+/*IN CONSTRUCTION*/
 void Federal()
 {
     int bilhetes[5] = {0};
-    int copia_Bilhetes[5] = {0};
-    int i;
+    int i = 0;
+    int ticket = 0;
     
     srand((unsigned)time(NULL));
     
@@ -487,17 +496,23 @@ void Federal()
     {
         bilhetes[i] =  10000 + ( rand() % 99999 );
         printf("O bilhete %d é %d.\n", i+1, bilhetes[i]);
-        copia_Bilhetes[i] = bilhetes[i];
     }
 
-    printf("O bilhete é %d.\n", copia_Bilhetes[0]);
-    printf("O bilhete é %d.\n", copia_Bilhetes[1]);
-    printf("O bilhete é %d.\n", copia_Bilhetes[2]);
-    printf("O bilhete é %d.\n", copia_Bilhetes[3]);
-    printf("O bilhete é %d.\n", copia_Bilhetes[4]);
-    
-    
-    
+    while(true)
+    {    
+        printf("Enter yout ticket: ");
+        scanf("%d", &ticket);
+
+        if(ticket > 98000)
+        {
+            printf("INCORRECT SEQUENCE ...TRY AGAIN\n");
+           continue;
+        }
+        else
+        {
+            break;
+        }    
+    }
 }    
     
     
