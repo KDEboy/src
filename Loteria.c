@@ -31,10 +31,9 @@ int main(void)
 		scanf("%d", &vetor_usuario[j]);
 	}
 
-	/*Geração da sequencia números aleatórios*/
 	printf("\n");
-	printf("Log de saída dos números aleatórios ... \n");
-
+	printf("LOG DA GERAÇÃO DOS NÚMEROS ALEATÓRIOS ...\n");
+	printf("\n");
 	/*Semente dos números aleatórios*/
 	srand( (unsigned)time(NULL) );
 
@@ -43,14 +42,10 @@ int main(void)
 		int r = 1 + (rand() % 9);
 		vetor_novo[i] = r;
 		if(!vetor[r])
-		{	
-			printf("Número %d gerado com sucesso .\n", r);
-		}
+		  printf("Número %d gerado com sucesso ...\n", r);
 		else
-		{
-			i--;
-			vetor[r]=1;
-		}    
+		  i--;
+		vetor[r]=1;    
 	  }
 
   	printf("\n");
