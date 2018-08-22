@@ -14,11 +14,11 @@ Armazene e exiba os números sorteados do bilhete em questão.
 
 int main(void)
 {
- 	int j = 0, x = 0, i = 0;
+ 	int j = 0, x = 0, i = 0, r = 0;
 	bool vetor[5] = {0};
-	int vetor_novo[6] = {0};
+	int vetor_novo[5] = {0};
  	int vetor_usuario[5] = {0};
- 	void OrdenaNumeros(int vetor_novo[6]);
+ 	void OrdenaNumeros(int vetor_novo[5]);
 	
 
 	/*Entrada do bilhete do usuário*/
@@ -36,16 +36,22 @@ int main(void)
 	printf("\n");
 	/*Semente dos números aleatórios*/
 	srand( (unsigned)time(NULL) );
+	
+	vetor_novo[0] = r;
 
 	for(i = 0; i < 5; ++i)
 	{
-		int r = 1 + (rand() % 9);
+		r = 1 + (rand() % 9);
 		vetor_novo[i] = r;
 		if(!vetor[r])
+		{
 		  printf("Número %d gerado com sucesso ...\n", r);
+		}
 		else
+		{
 		  i--;
-		vetor[r]=1;    
+		}
+		vetor[r] = 1;    
 	  }
 
   	printf("\n");
@@ -83,7 +89,7 @@ int main(void)
 	return 0;
 }
 
-void OrdenaNumeros(int vetor_novo[6])
+void OrdenaNumeros(int vetor_novo[5])
 {
 	int aux = 0;
 	int i = 0;
