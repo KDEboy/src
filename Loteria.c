@@ -14,54 +14,30 @@ Armazene e exiba os números sorteados do bilhete em questão.
 
 int main(void){
  
-	int nr, nr1, nr2, nr3, nr4;
- 	int j;
-	int x;
-	int vetor[5] = {0};
+ 	int j = 0, x = 0, i = 0;
+	bool vetor[5] = {0};
+	int vetor_novo[6] = {0};
  	int vetor_usuario[5] = {0};
- 	void OrdenaNumeros(int vetor[5]);
+
+ 	void OrdenaNumeros(int vetor_novo[6]);
 	
 	/*Sorteio dos números aleatórios*/
  
 	srand( (unsigned)time(NULL) );
 
 	/*Geração da sequencia números aleatórios*/
-	nr = 1 + (rand() % 9);
-	nr1 = 1 + (rand() % 9);
-	nr2 = 1 + (rand() % 9);
-	nr3 = 1 + (rand() % 9);
-	nr4 = 1 + (rand() % 9);
 
-	if(nr == nr1) 
+	for(i = 0; i < 5; ++i)
 	{
-		nr = 1 + (rand() % 9);
-	}	
-	else if(nr1 == nr2)
-	{
-		nr1 = 1 + (rand() % 9);
-	}	
-	else if(nr2 == nr3)
-	{
-		nr2 = 1 + (rand() % 9);
-	}
-	else if(nr3 == nr4)
-	{
-		nr3 = 1 + (rand() % 9);
-	}	
-	else if(nr4 == nr)
-	{
-		nr4 = 1 + (rand() % 9);		
-	}	
+		int r = 1 + (rand() % 9);
+		vetor_novo[i] = r;
+		if(!vetor[r])
+		  printf("Número gerado com sucesso...");
+		else
+		  i--;
+		vetor[r]=1;    
+	  }
 
-	vetor[0] = nr;
-	vetor[1] = nr1;
-	vetor[2] = nr2;
-	vetor[3] = nr3;
-	vetor[4] = nr4;
-	
-	/*printf("\n");
-	printf("\n");
-	*/
 	/*Entrada do bilhete do usuário*/
 	printf("\n");
 	printf("OBSERVAÇÃO...\n");
@@ -69,37 +45,36 @@ int main(void){
 	for(j = 0; j < 5; j++){
 		printf("Digite um número(APENAS DENTRO DO INTERVALO[0,9]): ");
 		scanf("%d", &vetor_usuario[j]);
-
 	}
 
 	printf("\n");
   	printf("\n");
 	printf("A sequencia sorteada é: ");
-	OrdenaNumeros(vetor);
+	OrdenaNumeros(vetor_novo);
 	printf("\n");
 
 	/*Verificação do sorteio*/
 	for(x = 0; x < 5; x++){
-		if(vetor[0] == vetor_usuario[x]){
+		if(vetor_novo[0] == vetor_usuario[x]){
 			printf("Você acertou o número %d.\n", vetor_usuario[x]);
 		}
-		else if(vetor[1] == vetor_usuario[x]){
+		else if(vetor_novo[1] == vetor_usuario[x]){
 			printf("Você acertou o número %d.\n", vetor_usuario[x]);
 		}		
-		else if(vetor[2] == vetor_usuario[x]){
+		else if(vetor_novo[2] == vetor_usuario[x]){
 			printf("Você acertou o número %d.\n", vetor_usuario[x]);
 		}		
-		else if(vetor[3] == vetor_usuario[x]){
+		else if(vetor_novo[3] == vetor_usuario[x]){
 			printf("Você acertou o número %d.\n", vetor_usuario[x]);
 		}		
-		else if(vetor[4] == vetor_usuario[x]){
+		else if(vetor_novo[4] == vetor_usuario[x]){
 			printf("Você acertou o número %d.\n", vetor_usuario[x]);
 		}				
 	}
 	return 0;
 }
 
-void OrdenaNumeros(int vetor[5])
+void OrdenaNumeros(int vetor_novo[6])
 {
 
 	int aux = 0;
@@ -111,18 +86,18 @@ void OrdenaNumeros(int vetor[5])
 	{
 		for(j = 0; j < 5; j++)
 		{
-			if(vetor[i] < vetor[j])
+			if(vetor_novo[i] < vetor_novo[j])
 			{
-				aux = vetor[i];
-				vetor[i] = vetor[j];
-				vetor[j] = aux;
+				aux = vetor_novo[i];
+				vetor_novo[i] = vetor_novo[j];
+				vetor_novo[j] = aux;
 			}
 		}
 	}			
 
 	for(k = 0; k < 5; k++)
 	{
-		printf(" %d", vetor[k]);
+		printf(" %d", vetor_novo[k]);
 	}	
 }
 
