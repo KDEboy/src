@@ -4,13 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-/*Considere sistema de loteria que sorteie N números inteiros, 
-positivos, únicos e não nulos. Ordene tais números.
-Faça um programa que leia números sorteados na loteria e os números de um 
-bilhete qualquer. O bilhete obedece os mesmos critérios 
-dos números sorteados na loteria.
-Armazene e exiba os números sorteados do bilhete em questão.
-*/
+/*##################################################################################################################################################################*/
 
 int main(void)
 {
@@ -18,10 +12,32 @@ int main(void)
 	bool vetor[5] = {0};
 	int vetor_novo[5] = {0};
  	int vetor_usuario[5] = {0};
- 	void OrdenaNumeros(int vetor_novo[5]);
-	
 
-	/*Entrada do bilhete do usuário*/
+	void OrdenaNumeros(int vetor_novo[5]);
+	void Gera_Aleatorios(int i, int r, int vetor_novo[5], bool vetor[5])	;
+	void Usuario(int j, int vetor_usuario[5]);
+	void Verifica_Resultado(int vetor_novo[5], int vetor_usuario[5], int x);
+	void 	Imprime_Bilhetes(int vetor_novo[5], int vetor_usuario[5]);
+
+	Usuario(j, vetor_usuario);
+	Gera_Aleatorios(i, r, vetor_novo, vetor)	;
+
+	printf("\n");
+	OrdenaNumeros(vetor_novo);
+
+	Imprime_Bilhetes(vetor_novo, vetor_usuario);
+
+	printf("\n");
+	Verifica_Resultado(vetor_novo, vetor_usuario, x);
+
+	return 0;
+}
+
+/*##################################################################################################################################################################*/
+
+/*FUNÇÃO DO USUARIO*/
+void Usuario(int j, int vetor_usuario[5])
+{
 	printf("\n");
 	printf("OBSERVAÇÃO...\n");
  	printf("Após digitar um número, pressione enter para digitar o próximo número.\n");
@@ -30,15 +46,15 @@ int main(void)
 		printf("Digite um número(APENAS DENTRO DO INTERVALO[0,9]): ");
 		scanf("%d", &vetor_usuario[j]);
 	}
-
+}
+/*FUNÇÃO PARA GERAR NÚMEROS ALEATORIOS UNICOS --- AINDA NÃO FUNCIONANDO TOTALMENTE*/
+void Gera_Aleatorios(int i, int r, int vetor_novo[5], bool vetor[5])
+{
 	printf("\n");
 	printf("LOG DA GERAÇÃO DOS NÚMEROS ALEATÓRIOS ...\n");
 	printf("\n");
-	/*Semente dos números aleatórios*/
-	srand( (unsigned)time(NULL) );
-	
 	vetor_novo[0] = r;
-
+	srand( (unsigned)time(NULL) );
 	for(i = 0; i < 5; ++i)
 	{
 		r = 1 + (rand() % 9);
@@ -53,48 +69,13 @@ int main(void)
 		}
 		vetor[r] = 1;    
 	  }
-
-  	printf("\n");
-	printf("A sequencia total do sorteio é: ");
-	OrdenaNumeros(vetor_novo);
-	printf("\n");
-
-	/*Verificação do sorteio*/
-	printf("\n");
-	printf("POR FAVOR AGUARDE ALGUNS SEGUNDOS PARA A VALIDAÇÃO DO BILHETE ... \n");
-	printf("\n");
-	for(x = 0; x < 5; x++)
-	{
-		if(vetor_novo[0] == vetor_usuario[x])
-		{
-			printf("P-A-R-A-B-É-N-S ! ! ! Você acertou o número %d.\n", vetor_usuario[x]);
-		}
-		else if(vetor_novo[1] == vetor_usuario[x])
-		{
-			printf("P-A-R-A-B-É-N-S ! ! ! Você acertou o número %d.\n", vetor_usuario[x]);
-		}		
-		else if(vetor_novo[2] == vetor_usuario[x])
-		{
-			printf("P-A-R-A-B-É-N-S ! ! ! Você acertou o número %d.\n", vetor_usuario[x]);
-		}		
-		else if(vetor_novo[3] == vetor_usuario[x])
-		{
-			printf("P-A-R-A-B-É-N-S ! ! ! Você acertou o número %d.\n", vetor_usuario[x]);
-		}		
-		else if(vetor_novo[4] == vetor_usuario[x])
-		{
-			printf("P-A-R-A-B-É-N-S ! ! ! Você acertou o número %d.\n", vetor_usuario[x]);
-		}				
-	}
-	return 0;
 }
-
+/*FUNÇÃO PARA ORDENAR NÚMEROS ALEATÓRIOS*/
 void OrdenaNumeros(int vetor_novo[5])
 {
 	int aux = 0;
 	int i = 0;
 	int j = 0;
-	int k = 0;
 	
 	for(i = 0; i < 5; i++)
 	{
@@ -108,17 +89,54 @@ void OrdenaNumeros(int vetor_novo[5])
 			}
 		}
 	}			
-
-	for(k = 0; k < 5; k++)
+}
+/*FUNÇÃO PARA VERIFICAR O RESULTADO*/
+void Verifica_Resultado(int vetor_novo[5], int vetor_usuario[5], int x)
+{
+	printf("POR FAVOR AGUARDE ALGUNS SEGUNDOS PARA A VALIDAÇÃO DO BILHETE ... \n");
+	printf("\n");
+	for(x = 0; x < 5; x++)
 	{
-		printf(" %d", vetor_novo[k]);
-	}	
+		if(vetor_novo[0] != vetor_usuario[x])
+		{
+			printf("P-A-R-A-B-É-N-S ! ! ! Você NÃO acertou o número %d.\n", vetor_usuario[x]);
+		}
+		else if(vetor_novo[1] != vetor_usuario[x])
+		{
+			printf("P-A-R-A-B-É-N-S ! ! ! Você NÃO acertou o número %d.\n", vetor_usuario[x]);
+		}		
+		else if(vetor_novo[2] != vetor_usuario[x])
+		{
+			printf("P-A-R-A-B-É-N-S ! ! ! Você NÃO acertou o número %d.\n", vetor_usuario[x]);
+		}		
+		else if(vetor_novo[3] != vetor_usuario[x])
+		{
+			printf("P-A-R-A-B-É-N-S ! ! ! Você NÃO acertou o número %d.\n", vetor_usuario[x]);
+		}		
+		else if(vetor_novo[4] != vetor_usuario[x])
+		{
+			printf("P-A-R-A-B-É-N-S ! ! ! Você NÃO acertou o número %d.\n", vetor_usuario[x]);
+		}				
+	}
 }
 
-
-
-
-
+void 	Imprime_Bilhetes(int vetor_novo[5], int vetor_usuario[5])
+{
+	int aleatorio, usuario;
+	printf("O bilhete aleatorio é: ");
+	for(aleatorio = 0;  aleatorio < 5;  aleatorio++)
+	{
+		printf("%d", vetor_novo[aleatorio]);
+	}
+	printf("\n");
+	printf("O bilhete do usuario é: ");
+	for(usuario = 0;  usuario < 5;  usuario++)
+	{
+		printf("%d", vetor_usuario[usuario]);
+	}
+	printf("\n");
+}
+/*##################################################################################################################################################################*/
 
 
 
