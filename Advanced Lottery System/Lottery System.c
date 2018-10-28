@@ -483,7 +483,7 @@ void Lotomania(int validateInput)
 }      
     
 /*FEDERAL*/
-/*IN CONSTRUCTION*/
+/*EVERY TIME IN CONSTRUCTION*/
 void Federal()
 {
     int bilhetes[5] = {0};
